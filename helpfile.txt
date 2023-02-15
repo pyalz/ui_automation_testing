@@ -1,0 +1,97 @@
+pytest /home/alister/PycharmProjects/ui_automation_project/tests/home_page_testScripts.py  --browser chrome --alluredir=/home/alister/PycharmProjects/ui_automation_project/allure-results
+
+ allure serve allure-results
+
+https://testdriven.io/blog/distributed-testing-with-selenium-grid/
+
+ https://linuxhint.com/install_configure_docker_ubuntu/
+ sudo systemctl unmask docker
+  sudo chmod 666 /var/run/docker.sock
+  ******To disable docker sudo systemctl disable --now docker
+  ******To Enable Docker sudo systemctl enable --now docker
+
+
+
+
+
+First check the docker is up
+then run the command
+(project-env) alister@alister-Lenovo-ideapad-320-14ISK:~/PycharmProjects/ui_automation_project$ docker-compose up -d
+
+if there is a build use required:  docker-compose up -d --build
+
+then u should see
+(project-env) alister@alister-Lenovo-ideapad-320-14ISK:~/PycharmProjects/ui_automation_project$ docker ps
+CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS                    NAMES
+4858a9a6c015        selenium/node-chrome:3.141.59    "/opt/bin/entry_poin…"   8 seconds ago       Up 7 seconds                                 ui_automation_project_chrome_1
+ea3733bb3765        selenium/node-firefox:3.141.59   "/opt/bin/entry_poin…"   8 seconds ago       Up 6 seconds                                 ui_automation_project_firefox_1
+9b33942ce395        selenium/hub:3.141.59            "/opt/bin/entry_poin…"   10 seconds ago      Up 8 seconds        0.0.0.0:4444->4444/tcp   ui_automation_project_hub_1
+
+
+After that run the script remote from run
+
+
+
+alister@alister-Lenovo-ideapad-320-14ISK:~/PycharmProjects/ui_automation_project$ docker-compose stop
+
+
+pytest tests/test_home_page.py -n 2 --browser remote --alluredir=/allure-results
+	docker run -it --network="host" ui_automation_project_ui_automation_project pytest tests/test_home_page.py -n 2 --browser remote --alluredir=/allure-results
+
+
+docker run -it --network="host" ui_automation_project_ui_automation_project_1 pytest tests/test_home_page.py -n 3 --browser remote --alluredir=/allure-results
+
+docker run -it --network="host" ui_automation_project pytest tests/test_home_page.py -n 2 --browser remote --alluredir=/allure-results
+docker run -it --network="host" ui_automation_project pytest tests/test_home_page.py -n 3 --browser remote --alluredir=/allure-results
+ sudo docker cp ui_automation_project:/ui_automation_project/allure-results/ /home/alister/PycharmProjects/ui_automation_project/
+
+
+to get inside docker : docker run -it --network="host" ui_automation_project_ui_automation_project sh
+
+
+
+To do
+now there is no allure in docker
+so need to change from python to a light weight ubuntu
+then install python 3.6
+and remaining
+then install allure 2.7.0
+then check allure --verison on docker
+then copy the allure content to another folder in system using the command cp
+then use this docker to recreate results
+https://github.com/fescobar/allure-docker-service#single-project---docker-on-unixmac
+
+
+
+docker cp ui_automation_project:/ui_automation_project/allure-results/ /home/alister/PycharmProjects/ui_automation_project/
+
+docker exec -it  ui_automation_project py.test -v --alluredir allure-results ./tests/test_home_page.py -n 3 --browser remote
+
+
+
+
+
+
+
+
+
+docker-compose up -d --build
+docker-compose scale chrome=5
+
+
+
+Solution (java:51311): Gtk-WARNING **: 22:55:54.731: Unable to locate theme engine in module_path: "pixmap",
+(java:51311): Gtk-WARNING **: 22:55:54.731: Unable to locate theme engine in module_path: "pixmap",
+
+sudo apt install gnome-themes-standard
+
+docker-compose -f docker-compose-v3.yml up
+
+
+
+#!/usr/bin/env bash
+cd /var/lib/jenkins/workspace/pytest_automation_project_copy_code/
+docker kill $(docker ps -q)
+docker rm $(docker ps -a -q)
+docker rmi $(docker images -q)
+docker system prune --all --volumes -f
