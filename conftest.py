@@ -32,7 +32,7 @@ def pytest_addoption(parser):
 # this fixture or function will run before, in this case, the class, as that is the scope
 @pytest.fixture(scope="function")
 def test_setup(request, variables):
-    timeout = variables["timeout"]
+    timeout = 30
     browser = request.config.getoption("--browser")
     if browser == "chrome":
         # only this command is needed to download or look the chromedriver, no need for .exe
@@ -41,9 +41,9 @@ def test_setup(request, variables):
         chrome_options.add_argument("--start-maximized")
         #chrome_options.add_argument("--headless")
         chrome_options.add_argument('--no-sandbox')
-        driver = webdriver.Chrome("/usr/bin/chromedriver",options=chrome_options)
-        driver.implicitly_wait(timeout)
-        # driver = webdriver.Chrome(executable_path= "C:/Users/jorge/Desktop/Work/Code/Mine/PythonAutomationFramework/drivers/chromedriver.exe")
+        # driver = webdriver.Chrome("/usr/bin/chromedriver",options=chrome_options)
+        # driver.implicitly_wait(timeout)
+        driver = webdriver.Chrome(executable_path="F:\\code\\pytest\\sample1\\ui_automation_testing\\Driver\\chromedriver.exe")
     elif browser == "firefox":
         driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     elif browser == "edge":
